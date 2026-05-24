@@ -1,0 +1,18 @@
+<!doctype html>
+<title>Results</title>
+<div class="results-page">
+  <h2 class="title">Results</h2>
+  <div class="results">
+    <div class="results-text">Thank you for submitting!</div>
+    <div class="results-text">Your new bookmark is: 
+      <a class="bookmark-hyperlink" [href]="url">{{ url }}</a>
+    </div>
+    <button 
+      mat-flat-button
+      class="return-button" 
+      [routerLink]="['/overview']">
+      Return to overview
+    </button>
+  </div>
+  <div></div>
+</div>

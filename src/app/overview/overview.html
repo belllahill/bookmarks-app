@@ -1,0 +1,40 @@
+<!doctype html>
+<title>Overview</title>
+<div class="overview-page">
+  <h2 class="title">Bookmarks Overview</h2>
+  <div class="bookmark-input-container">
+    <form 
+      class="bookmark-form" 
+      [formGroup]="bookmarkForm" 
+      (ngSubmit)="onSubmit()">
+      <label class="form-label" for="link">Bookmark URL:</label>
+      <input 
+        class="form-input" 
+        id="link" 
+        type="url" 
+        formControlName="link"/>
+      <button 
+        mat-flat-button 
+        class="submit-button" 
+        [disabled]="buttonDisabled" 
+        type="submit">
+        Add bookmark
+      </button>
+    </form>
+    <div class="error-message">{{ urlError }}</div>
+  </div>
+  <div class="bookmark-container">
+    <div class="bookmarks">
+      <div class="bookmark" *ngFor="let bookmark of displayedBookmarks">
+        <a class="bookmark-hyperlink" [href]="bookmark">{{ bookmark }}</a>
+      </div>
+    </div>
+  </div>
+  <div class="paginator">
+    <p-paginator 
+      (onPageChange)="onPageChange($event)" 
+      [first]="first" 
+      [rows]="rows" 
+      [totalRecords]="allBookmarks.length"/>
+  </div>
+</div>

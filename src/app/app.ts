@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Bookmark } from './services/bookmark';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +10,9 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('bookmarks-app');
+  bookmarkService: Bookmark = inject(Bookmark);
+  ngOnInit() {
+    // Initialise list of bookmark URLs in local storage.
+    this.bookmarkService.initialiseBookmarkList();
+  }
 }

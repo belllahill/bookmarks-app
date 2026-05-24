@@ -1,0 +1,46 @@
+// Page Container
+.results-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 60vh;
+}
+
+// Results Title
+.title {
+    display: flex;
+    justify-content: center;
+    color: var(--mat-sys-on-primary-fixed);
+    margin: 20px 0;
+}
+
+// Results Div (text and return button)
+.results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  border: 0.375vh solid var(--mat-sys-on-primary-fixed-variant);
+  background-color: var(--mat-sys-inverse-on-surface);
+  padding: 1rem;
+  max-width: 50vw;
+  line-height: 2rem;
+
+  .results-text {
+    padding: 1rem;
+  }
+
+  .bookmark-hyperlink {
+    color: var(--mat-sys-on-tertiary-fixed-variant);
+  }
+}
+
+// Return to overview button
+.return-button {
+  height: 2.5rem;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  margin: 1rem;
+}

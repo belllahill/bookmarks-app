@@ -1,0 +1,117 @@
+.overview-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  padding-bottom: 12px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  color: var(--mat-sys-on-primary-fixed);
+  margin: 10px 0 5px;
+}
+
+.bookmark-input-container {
+  width: 60%;
+}
+
+.bookmark-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.85rem;
+  font-size: 1rem;
+}
+
+.form-label {
+  padding-right: 0.5rem;
+}
+
+.form-input {
+  height: 100%;
+  width: 50%;
+  border-radius: 5px;
+  border: 1.5px solid var(--mat-sys-on-primary-fixed);
+}
+
+.input-error,
+.input-error:focus {
+  border: 2px solid var(--mat-sys-error);
+  outline: none;
+}
+
+.submit-button {
+  margin-left: 0.5rem;
+  max-height: 2rem;
+  font-size: inherit;
+  border-radius: 10px;
+}
+
+.error-message {
+  height: 1.5rem;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  color: var(--mat-sys-error);
+  font-size: 1rem;
+}
+
+.paginator {
+  display: flex;
+  justify-self: center;
+  --p-paginator-gap: 10px;
+  --p-paginator-nav-button-color: var(--mat-sys-on-primary-fixed-variant);
+  --p-paginator-nav-button-hover-color: var(--mat-sys-on-primary-fixed-variant);
+  --p-paginator-nav-button-selected-color: var(--mat-sys-surface);
+  --p-paginator-nav-button-width: 2rem;
+  --p-paginator-nav-button-height: 2rem;
+  --p-paginator-nav-button-selected-background: var(--mat-sys-on-primary-fixed-variant);
+  --p-paginator-nav-button-hover-background: var(--mat-sys-surface-variant);
+  --p-paginator-nav-button-border-radius: 50%;
+}
+
+.bookmark-container {
+  align-items: start;
+  height: 80.5vh;
+  margin: 1vh;
+  width: 60vw;
+  border-radius: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
+  scrollbar-color: var(--mat-sys-on-primary-fixed-variant) transparent;
+  scrollbar-width: thin;
+  border: 0.375vh solid var(--mat-sys-on-primary-fixed-variant);
+  background-color: var(--mat-sys-surface-container-high);
+}
+
+.bookmarks {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 1rem;
+  height: 79.75vh;
+  .bookmark {
+    display: flex;
+    align-items: center;
+    padding-left: 0.5rem;
+    height: 5%;
+    min-height: fit-content;
+  }
+
+  .bookmark:nth-child(even) {
+    background-color: var(--mat-sys-inverse-on-surface);
+    .bookmark-hyperlink {
+      color: var(--mat-sys-on-tertiary-fixed-variant);
+    }
+  }
+  .bookmark:nth-child(odd) {
+    background-color: var(--mat-sys-surface-variant);
+    .bookmark-hyperlink {
+      color: var(--mat-sys-on-primary-fixed);
+    }
+  }
+}
