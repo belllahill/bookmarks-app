@@ -84,8 +84,7 @@
   overflow-wrap: anywhere;
   scrollbar-color: var(--mat-sys-on-primary-fixed-variant) transparent;
   scrollbar-width: thin;
-  // border: 0.375vh solid var(--mat-sys-on-primary-fixed-variant);
-  border: 0.375vh solid black;
+  border: 0.375vh solid var(--mat-sys-on-primary-fixed-variant);
   background-color: var(--mat-sys-surface-container-high);
 }
 

@@ -5,7 +5,6 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 @include mat.core();
-@import '@angular/material/prebuilt-themes/magenta-violet.css';
 
 html {
   height: 100%;
