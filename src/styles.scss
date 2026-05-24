@@ -3,8 +3,8 @@
 // components according to the Material 3 design spec.
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
-@import '@angular/material/prebuilt-themes/magenta-violet.css';
 @use '@angular/material' as mat;
+@import '@angular/material/prebuilt-themes/magenta-violet.css';
 
 html {
   height: 100%;
