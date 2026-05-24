@@ -6,8 +6,7 @@
 @use '@angular/material' as mat;
 @include mat.core();
 
-html {
-  height: 100%;
+:root {
   color-scheme: light dark;
   @include mat.theme(
     (
@@ -19,6 +18,9 @@ html {
       density: 0,
     )
   );
+}
+html {
+  height: 100%;
 }
 
 body {
@@ -50,8 +52,4 @@ body {
 .p-paginator .p-paginator-first svg {
   width: 1.25rem !important;
   height: 1.25rem !important;
-}
-
-body {
-  background: hotpink !important;
 }
