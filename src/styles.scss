@@ -6,11 +6,12 @@
 @use '@angular/material' as mat;
 @include mat.core();
 
-:root {
-  color-scheme: light dark;
+html {
+  height: 100%;
   @include mat.theme(
     (
       color: (
+        theme-type: light,
         primary: mat.$magenta-palette,
         tertiary: mat.$violet-palette,
       ),
@@ -18,9 +19,6 @@
       density: 0,
     )
   );
-}
-html {
-  height: 100%;
 }
 
 body {
