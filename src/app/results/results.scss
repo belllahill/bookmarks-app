@@ -11,7 +11,7 @@
 .title {
     display: flex;
     justify-content: center;
-    color: var(--mat-sys-on-primary-fixed);
+    color: var(--mat-sys-on-primary-fixed, #380038);
     margin: 20px 0;
 }
 
@@ -22,8 +22,8 @@
   align-items: center;
   font-size: 1.5rem;
   border-radius: 10px;
-  border: 0.375vh solid var(--mat-sys-on-primary-fixed-variant);
-  background-color: var(--mat-sys-inverse-on-surface);
+  border: 0.375vh solid var(--mat-sys-on-primary-fixed-variant, #810081);
+  background-color: var(--mat-sys-inverse-on-surface, #f8eef2);
   padding: 1rem;
   max-width: 50vw;
   line-height: 2rem;
@@ -33,7 +33,7 @@
   }
 
   .bookmark-hyperlink {
-    color: var(--mat-sys-on-tertiary-fixed-variant);
+    color: var(--mat-sys-on-tertiary-fixed-variant, #5f00c0);
   }
 }
 

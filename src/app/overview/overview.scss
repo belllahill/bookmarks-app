@@ -10,7 +10,7 @@
 .title {
   display: flex;
   justify-content: center;
-  color: var(--mat-sys-on-primary-fixed);
+  color: var(--mat-sys-on-primary-fixed, #380038);
   margin: 10px 0 5px;
 }
 
@@ -34,12 +34,12 @@
   height: 100%;
   width: 50%;
   border-radius: 5px;
-  border: 1.5px solid var(--mat-sys-on-primary-fixed);
+  border: 1.5px solid var(--mat-sys-on-primary-fixed, #380038);
 }
 
 .input-error,
 .input-error:focus {
-  border: 2px solid var(--mat-sys-error);
+  border: 2px solid var(--mat-sys-error, #ba1a1a);
   outline: none;
 }
 
@@ -55,7 +55,7 @@
   display: flex;
   align-items: end;
   justify-content: center;
-  color: var(--mat-sys-error);
+  color: var(--mat-sys-error, #ba1a1a);
   font-size: 1rem;
 }
 
@@ -63,13 +63,13 @@
   display: flex;
   justify-self: center;
   --p-paginator-gap: 10px;
-  --p-paginator-nav-button-color: var(--mat-sys-on-primary-fixed-variant);
-  --p-paginator-nav-button-hover-color: var(--mat-sys-on-primary-fixed-variant);
-  --p-paginator-nav-button-selected-color: var(--mat-sys-surface);
+  --p-paginator-nav-button-color: var(--mat-sys-on-primary-fixed-variant, #810081);
+  --p-paginator-nav-button-hover-color: var(--mat-sys-on-primary-fixed-variant, #810081);
+  --p-paginator-nav-button-selected-color: var(--mat-sys-surface, #fff7f9);
   --p-paginator-nav-button-width: 2rem;
   --p-paginator-nav-button-height: 2rem;
-  --p-paginator-nav-button-selected-background: var(--mat-sys-on-primary-fixed-variant);
-  --p-paginator-nav-button-hover-background: var(--mat-sys-surface-variant);
+  --p-paginator-nav-button-selected-background: var(--mat-sys-on-primary-fixed-variant, #810081);
+  --p-paginator-nav-button-hover-background: var(--mat-sys-surface-variant, #eedee7);
   --p-paginator-nav-button-border-radius: 50%;
 }
 
@@ -82,10 +82,10 @@
   overflow-y: auto;
   overflow-x: hidden;
   overflow-wrap: anywhere;
-  scrollbar-color: var(--mat-sys-on-primary-fixed-variant) transparent;
+  scrollbar-color: var(--mat-sys-on-primary-fixed-variant, #810081) transparent;
   scrollbar-width: thin;
-  border: 0.375vh solid var(--mat-sys-on-primary-fixed-variant);
-  background-color: var(--mat-sys-surface-container-high);
+  border: 0.375vh solid var(--mat-sys-on-primary-fixed-variant, #810081);
+  background-color: var(--mat-sys-surface-container-high, #efe6ea);
 }
 
 .bookmarks {
@@ -103,15 +103,15 @@
   }
 
   .bookmark:nth-child(even) {
-    background-color: var(--mat-sys-inverse-on-surface);
+    background-color: var(--mat-sys-inverse-on-surface, #f8eef2);
     .bookmark-hyperlink {
-      color: var(--mat-sys-on-tertiary-fixed-variant);
+      color: var(--mat-sys-on-tertiary-fixed-variant, #5f00c0);
     }
   }
   .bookmark:nth-child(odd) {
-    background-color: var(--mat-sys-surface-variant);
+    background-color: var(--mat-sys-surface-variant, #eedee7);
     .bookmark-hyperlink {
-      color: var(--mat-sys-on-primary-fixed);
+      color: var(--mat-sys-on-primary-fixed, #380038);
     }
   }
 }
