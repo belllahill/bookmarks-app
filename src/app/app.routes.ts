@@ -17,9 +17,5 @@ export const routes: Routes = [
     path: '',
     redirectTo: '/overview',
     pathMatch: 'full'
-  },
-  // {
-  //   path: '**',
-  //   redirectTo: '/overview'
-  // }
+  }
 ];
