@@ -181,10 +181,13 @@ export class Overview implements OnInit{
   
   /**
    * Calls the bookmark delete function in service.
+   * Clears URL input from form.
    * Updates the errors and displayed bookmarks.
    * @param bookmarkToDelete 
    */
   deleteBookmark(bookmarkToDelete: string): void {
+    const input = document.getElementById('link') as HTMLInputElement;
+    input.value = '';
     this.bookmarkService.deleteBookmark(bookmarkToDelete);
     this.editingBookmark = null;
     this.updateErrorsAndBookmarks();
