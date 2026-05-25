@@ -81,7 +81,7 @@ export class Overview implements OnInit{
         this.bookmarkService.addUrlError('Not a valid URL.');
       }
       this.urlError = this.bookmarkService.getError();
-      this.toggleErrors();
+      this.toggleErrors('link');
       return;
     }
 
@@ -103,7 +103,7 @@ export class Overview implements OnInit{
 
       }
       this.urlError = this.bookmarkService.getError();
-      this.toggleErrors();
+      this.toggleErrors('link');
       return;
     }
 
@@ -141,7 +141,7 @@ export class Overview implements OnInit{
         this.bookmarkService.addUrlError('Not a valid URL.');
       }
       this.urlError = this.bookmarkService.getError();
-      this.toggleErrors();
+      this.toggleErrors('edit');
       return;
     }
 
@@ -163,7 +163,7 @@ export class Overview implements OnInit{
 
       }
       this.urlError = this.bookmarkService.getError();
-      this.toggleErrors();
+      this.toggleErrors('edit');
       return;
     }
 
@@ -191,6 +191,7 @@ export class Overview implements OnInit{
    */
   deleteBookmark(bookmarkToDelete: string): void {
     this.bookmarkService.deleteBookmark(bookmarkToDelete);
+    this.editingBookmark = null;
     this.updateErrorsAndBookmarks();
   }
 
@@ -203,11 +204,11 @@ export class Overview implements OnInit{
     this.bookmarkService.clearErrors();
     this.urlError = this.bookmarkService.getError();
     this.duplicateBookmark = null;
-    this.toggleErrors();
+    this.toggleErrors('link');
   }
 
-  toggleErrors(): void {
-    const input = document.getElementById('link') as HTMLElement;
+  toggleErrors(field: string): void {
+    const input = document.getElementById(field) as HTMLElement;
     const hasErrors = !!this.bookmarkService.getError();
     input.classList.toggle('input-error', hasErrors);
   }
