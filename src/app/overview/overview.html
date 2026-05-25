@@ -27,6 +27,9 @@
     <div class="bookmarks">
       <div class="bookmark" *ngFor="let bookmark of displayedBookmarks">
         <a class="bookmark-hyperlink" [href]="bookmark">{{ bookmark }}</a>
+        <button (click)="deleteBookmark(bookmark)" mat-icon-button class="delete-button">
+          <mat-icon class="material-icons-outlined">delete</mat-icon>
+        </button>
       </div>
     </div>
   </div>

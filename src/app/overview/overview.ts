@@ -3,14 +3,21 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Validators, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Bookmark } from '../services/bookmark';
-import { urlFormatValidator, urlValidator } from '../validators/url.validator';
+import { urlDuplicateValidator, urlFormatValidator, urlValidator } from '../validators/url.validator';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { filter, firstValueFrom, race, take, timer } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-overview',
-  imports: [ReactiveFormsModule, CommonModule, PaginatorModule, MatButtonModule],
+  imports: [
+    ReactiveFormsModule, 
+    CommonModule, 
+    PaginatorModule, 
+    MatButtonModule,
+    MatIconModule
+  ],
   templateUrl: './overview.html',
   styleUrl: './overview.scss',
 })
@@ -28,7 +35,8 @@ export class Overview implements OnInit{
     link: new FormControl('', {
       validators: [
         Validators.required, 
-        urlFormatValidator()
+        urlFormatValidator(),
+        urlDuplicateValidator(),
       ],
       asyncValidators: [urlValidator()],
       updateOn: 'submit'
@@ -36,9 +44,7 @@ export class Overview implements OnInit{
   });
 
   ngOnInit(): void {
-    this.allBookmarks = this.bookmarkService.getBookmarks();
-    this.displayedBookmarks = this.bookmarkService.updatedDisplayedBookmarks(this.first, this.rows, this.allBookmarks);
-    this.clearErrors();
+    this.updateErrorsAndBookmarks();
   }
 
   async onSubmit() {
@@ -47,6 +53,11 @@ export class Overview implements OnInit{
     
     if (this.bookmarkForm.invalid) {
       const control = this.bookmarkForm.get('link');
+      if (control?.hasError('duplicateUrl')) {
+        this.bookmarkService.addUrlError('URL already bookmarked.');
+        const input = document.getElementById('link') as HTMLInputElement;
+        input.value = '';
+      }
       if (control?.hasError('required')) {
         this.bookmarkService.addUrlError('URL must not be empty.');
       }
@@ -89,7 +100,12 @@ export class Overview implements OnInit{
     this.first = event.first ?? 0;
     this.rows = event.rows ?? 20;
     this.displayedBookmarks = this.bookmarkService.updatedDisplayedBookmarks(this.first, this.rows, this.allBookmarks);
-    }
+  }
+
+  deleteBookmark(bookmarkToDelete: string): void {
+    this.bookmarkService.deleteBookmark(bookmarkToDelete);
+    this.updateErrorsAndBookmarks();
+  }
 
   clearErrors() {
     this.bookmarkService.clearErrors();
@@ -101,6 +117,12 @@ export class Overview implements OnInit{
     const input = document.getElementById('link') as HTMLElement;
     const hasErrors = !!this.bookmarkService.getError();
     input.classList.toggle('input-error', hasErrors);
+  }
+
+  updateErrorsAndBookmarks(): void {
+    this.clearErrors();
+    this.allBookmarks = this.bookmarkService.getBookmarks();
+    this.displayedBookmarks = this.bookmarkService.updatedDisplayedBookmarks(this.first, this.rows, this.allBookmarks);
   }
 
 }

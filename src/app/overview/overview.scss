@@ -85,9 +85,11 @@
   .bookmark {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding-left: 0.5rem;
     height: 5%;
     min-height: fit-content;
+    width: 100%;
   }
 
   .bookmark:nth-child(even) {
@@ -95,12 +97,27 @@
     .bookmark-hyperlink {
       color: var(--mat-sys-on-tertiary-fixed-variant);
     }
+    .delete-button:hover {
+      background-color: var(--mat-sys-inverse-on-surface) !important;
+    }
   }
   .bookmark:nth-child(odd) {
     background-color: var(--mat-sys-surface-variant);
     .bookmark-hyperlink {
       color: var(--mat-sys-on-primary-fixed);
     }
+  }
+}
+
+.delete-button {
+  display: flex;
+  padding: 0;
+  margin-right: 0.5rem;
+  width: auto;
+  height: auto;
+  --mat-icon-button-touch-target-size: 0;
+  mat-icon {
+    color: var(--mat-sys-on-primary-fixed);
   }
 }
 

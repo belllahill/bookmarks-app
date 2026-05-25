@@ -28,9 +28,19 @@ export class Bookmark {
    * Adds URL to list of bookmarks in local storage.
    * @param url Most recent successful URL input (normalised).
    */
-  addBookmark(url: string) {
+  addBookmark(url: string): void {
     localStorage.setItem('url', url);
-    localStorage.setItem('bookmarks', JSON.stringify([...this.getBookmarks(), url]));
+    this.updateBookmarks([...this.getBookmarks(), url]);
+  }
+
+  deleteBookmark(bookmarkToDelete: string): void {
+    const bookmarks = this.getBookmarks();
+    const newBookmarks = bookmarks.filter(bookmark => bookmark !== bookmarkToDelete);
+    this.updateBookmarks(newBookmarks);
+  }
+
+  updateBookmarks(bookmarks: string[]): void {
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   }
 
   /**

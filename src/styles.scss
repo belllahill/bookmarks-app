@@ -39,3 +39,13 @@ body {
   width: 1.25rem !important;
   height: 1.25rem !important;
 }
+
+.mat-mdc-icon-button:hover {
+  mat-icon {
+    color: var(--mat-sys-tertiary) !important; 
+  }
+}
+
+.mat-mdc-button-persistent-ripple::before {
+  background-color: transparent !important;
+}

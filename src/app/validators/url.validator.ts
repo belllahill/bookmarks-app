@@ -43,3 +43,21 @@ export function urlFormatValidator(): ValidatorFn {
     return bookmarkService.checkUrlFormat(url) ? null : {invalidUrlFormat: true};  
   }
 }
+
+export function urlDuplicateValidator(): ValidatorFn {
+  const bookmarkService = inject(Bookmark)
+  return (control:AbstractControl) : ValidationErrors | null => {
+    let url = control.value;
+
+    if (!url) {
+      return null;
+    }
+
+    const bookmarks = bookmarkService.getBookmarks();
+    console.log(bookmarks);
+    const normalisedUrl = bookmarkService.normaliseUrl(url);
+
+
+    return !(bookmarks.includes(normalisedUrl)) ? null : {duplicateUrl: true};  
+  }
+}
