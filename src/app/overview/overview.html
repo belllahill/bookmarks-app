@@ -25,10 +25,28 @@
   <div class="bookmark-container">
     <div class="bookmarks">
       <div class="bookmark" *ngFor="let bookmark of displayedBookmarks" [class.duplicate-error]="bookmark === duplicateBookmark">
-        <a class="bookmark-hyperlink" [href]="bookmark">{{ bookmark }}</a>
-        <button (click)="deleteBookmark(bookmark)" mat-icon-button class="delete-button">
-          <mat-icon class="material-icons-outlined">delete</mat-icon>
-        </button>
+        <ng-container *ngIf="!(bookmark === editingBookmark)">
+          <a class="bookmark-hyperlink" [href]="bookmark">{{ bookmark }}</a>
+          <div class="edit-delete-buttons">
+            <button (click)="editBookmark(bookmark)" mat-icon-button class="edit-button">
+              <mat-icon class="material-icons-outlined">edit</mat-icon>
+            </button>
+            <button (click)="deleteBookmark(bookmark)" mat-icon-button class="delete-button">
+              <mat-icon class="material-icons-outlined">delete</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+        <form [formGroup]="editForm" *ngIf="bookmark === editingBookmark" class="bookmark edit-bookmark" (ngSubmit)="onEdit()">
+          <input class="edit-input" type="url" id="edit-input" formControlName="edit"/>
+          <div class="edit-delete-buttons">
+            <button mat-icon-button class="edit-button" type="submit">
+              <mat-icon class="material-icons-outlined">check</mat-icon>
+            </button>
+            <button mat-icon-button (click)="editingBookmark = null" class="edit-button">
+              <mat-icon class="material-icons-outlined">close</mat-icon>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -107,6 +107,11 @@
       color: var(--mat-sys-on-primary-fixed);
     }
   }
+
+  .edit-bookmark {
+    background-color: transparent !important;
+    padding-left: 0;
+  }
 }
 
 .duplicate-error {
@@ -116,6 +121,11 @@
   }
 }
 
+.edit-delete-buttons {
+  display: flex;
+}
+
+.edit-button,
 .delete-button {
   display: flex;
   padding: 0;
@@ -126,6 +136,16 @@
   mat-icon {
     color: var(--mat-sys-on-primary-fixed);
   }
+}
+
+.edit-input {
+  background-color: transparent;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  font-size: 1rem;
 }
 
 .paginator {

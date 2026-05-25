@@ -43,6 +43,15 @@ export class Bookmark {
     this.updateBookmarks(newBookmarks);
   }
 
+  editBookmark(bookmarkToEdit: string, newBookmark: string): void {
+    const bookmarks = this.getBookmarks();
+    const index = bookmarks.findIndex(bookmark => bookmark === bookmarkToEdit);
+    if (index !== -1) {
+      bookmarks[index] = newBookmark;
+    }
+    this.updateBookmarks(bookmarks);
+  }
+
   updateBookmarks(bookmarks: string[]): void {
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   }

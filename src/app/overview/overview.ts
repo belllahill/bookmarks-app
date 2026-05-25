@@ -30,9 +30,22 @@ export class Overview implements OnInit{
   allBookmarks: string[] = [];
   urlError: string|null = null;
   duplicateBookmark: string|null = null;
+  editingBookmark: string|null = null;
 
   bookmarkForm = new FormGroup({
     link: new FormControl('', {
+      validators: [
+        Validators.required, 
+        urlFormatValidator(),
+        urlDuplicateValidator(),
+      ],
+      asyncValidators: [urlValidator()],
+      updateOn: 'submit'
+    })
+  });
+
+  editForm = new FormGroup({
+    edit: new FormControl('', {
       validators: [
         Validators.required, 
         urlFormatValidator(),
@@ -100,6 +113,67 @@ export class Overview implements OnInit{
     this.router.navigate(['/results']);
   }
 
+  async onEdit() {
+    this.clearErrors();
+    this.editForm.updateValueAndValidity();
+    const urlInput = this.editForm.get('edit');
+    const oldUrl = this.editingBookmark;
+    // No changes made.
+    if (oldUrl == this.bookmarkService.normaliseUrl(String(urlInput?.value))) {
+      this.editingBookmark = null;
+      this.updateErrorsAndBookmarks();
+      return;
+    }
+    
+    // First check if URL has been entered, 
+    // then check if it is a duplicate, 
+    // then check if it is valid format.
+    // Add relevant errors for each case.
+    if (this.editForm.invalid) {
+      if (urlInput?.hasError('required')) {
+        this.bookmarkService.addUrlError('URL must not be empty.');
+      } 
+      else if (urlInput?.hasError('duplicateUrl')) {
+        this.bookmarkService.addUrlError('URL already bookmarked.');
+        this.highlightDuplicateBookmark(urlInput);
+      } 
+      else if (urlInput?.hasError('invalidUrlFormat')) {
+        this.bookmarkService.addUrlError('Not a valid URL.');
+      }
+      this.urlError = this.bookmarkService.getError();
+      this.toggleErrors();
+      return;
+    }
+
+    // This is to make sure the URL checker has time to process.
+    const finished = race(
+      this.editForm.statusChanges.pipe(
+        filter(status => status !== 'PENDING'),
+        take(1)
+      ),
+      timer(5000) 
+    );
+
+    await firstValueFrom(finished);
+
+    // Check that URL is a real URL.
+    if (this.editForm.invalid) {
+      if (urlInput?.hasError('invalidUrl')) {
+        this.bookmarkService.addUrlError('URL not found.');
+
+      }
+      this.urlError = this.bookmarkService.getError();
+      this.toggleErrors();
+      return;
+    }
+
+    // Add normalised URL to local storage and take user to results page.
+    const normalisedUrl = this.bookmarkService.normaliseUrl(String(urlInput?.value));
+    this.bookmarkService.editBookmark(oldUrl!, normalisedUrl);  
+    this.editingBookmark = null;
+    this.updateErrorsAndBookmarks();
+  }
+
   /**
    * 
    * @param event 
@@ -118,6 +192,11 @@ export class Overview implements OnInit{
   deleteBookmark(bookmarkToDelete: string): void {
     this.bookmarkService.deleteBookmark(bookmarkToDelete);
     this.updateErrorsAndBookmarks();
+  }
+
+  editBookmark(bookmarkToEdit: string): void {
+    this.editingBookmark = bookmarkToEdit;
+    this.editForm.get('edit')?.setValue(this.editingBookmark);
   }
 
   clearErrors(): void {
