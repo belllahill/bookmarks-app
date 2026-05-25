@@ -15,8 +15,7 @@
         formControlName="link"/>
       <button 
         mat-flat-button 
-        class="submit-button" 
-        [disabled]="buttonDisabled" 
+        class="submit-button"
         type="submit">
         Add bookmark
       </button>
@@ -25,7 +24,7 @@
   </div>
   <div class="bookmark-container">
     <div class="bookmarks">
-      <div class="bookmark" *ngFor="let bookmark of displayedBookmarks">
+      <div class="bookmark" *ngFor="let bookmark of displayedBookmarks" [class.duplicate-error]="bookmark === duplicateBookmark">
         <a class="bookmark-hyperlink" [href]="bookmark">{{ bookmark }}</a>
         <button (click)="deleteBookmark(bookmark)" mat-icon-button class="delete-button">
           <mat-icon class="material-icons-outlined">delete</mat-icon>

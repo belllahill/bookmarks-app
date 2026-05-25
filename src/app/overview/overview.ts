@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { Validators, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { Validators, ReactiveFormsModule, FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Bookmark } from '../services/bookmark';
 import { urlDuplicateValidator, urlFormatValidator, urlValidator } from '../validators/url.validator';
@@ -24,12 +24,12 @@ import { MatIconModule } from '@angular/material/icon';
 export class Overview implements OnInit{
   private router = inject(Router);
   bookmarkService: Bookmark = inject(Bookmark);
-  first = 0;
-  rows = 20;
+  first: number = 0;
+  rows: number = 20;
   displayedBookmarks: string[] = [];
   allBookmarks: string[] = [];
-  buttonDisabled = false;
   urlError: string|null = null;
+  duplicateBookmark: string|null = null;
 
   bookmarkForm = new FormGroup({
     link: new FormControl('', {
@@ -50,18 +50,21 @@ export class Overview implements OnInit{
   async onSubmit() {
     this.clearErrors();
     this.bookmarkForm.updateValueAndValidity();
+    const urlInput = this.bookmarkForm.get('link');
     
+    // First check if URL has been entered, 
+    // then check if it is a duplicate, 
+    // then check if it is valid format.
+    // Add relevant errors for each case.
     if (this.bookmarkForm.invalid) {
-      const control = this.bookmarkForm.get('link');
-      if (control?.hasError('duplicateUrl')) {
-        this.bookmarkService.addUrlError('URL already bookmarked.');
-        const input = document.getElementById('link') as HTMLInputElement;
-        input.value = '';
-      }
-      if (control?.hasError('required')) {
+      if (urlInput?.hasError('required')) {
         this.bookmarkService.addUrlError('URL must not be empty.');
-      }
-      if (control?.hasError('invalidUrlFormat')) {
+      } 
+      else if (urlInput?.hasError('duplicateUrl')) {
+        this.bookmarkService.addUrlError('URL already bookmarked.');
+        this.highlightDuplicateBookmark(urlInput);
+      } 
+      else if (urlInput?.hasError('invalidUrlFormat')) {
         this.bookmarkService.addUrlError('Not a valid URL.');
       }
       this.urlError = this.bookmarkService.getError();
@@ -69,6 +72,7 @@ export class Overview implements OnInit{
       return;
     }
 
+    // This is to make sure the URL checker has time to process.
     const finished = race(
       this.bookmarkForm.statusChanges.pipe(
         filter(status => status !== 'PENDING'),
@@ -79,9 +83,9 @@ export class Overview implements OnInit{
 
     await firstValueFrom(finished);
 
+    // Check that URL is a real URL.
     if (this.bookmarkForm.invalid) {
-      const control = this.bookmarkForm.get('link');
-      if (control?.hasError('invalidUrl')) {
+      if (urlInput?.hasError('invalidUrl')) {
         this.bookmarkService.addUrlError('URL not found.');
 
       }
@@ -90,30 +94,40 @@ export class Overview implements OnInit{
       return;
     }
 
-    const url = this.bookmarkService.normaliseUrl(String(this.bookmarkForm.get('link')?.value));
-    this.bookmarkService.addBookmark(url);  
+    // Add normalised URL to local storage and take user to results page.
+    const normalisedUrl = this.bookmarkService.normaliseUrl(String(urlInput?.value));
+    this.bookmarkService.addBookmark(normalisedUrl);  
     this.router.navigate(['/results']);
-    this.buttonDisabled = false;
   }
 
-  onPageChange(event: PaginatorState) {
+  /**
+   * 
+   * @param event 
+   */
+  onPageChange(event: PaginatorState): void {
     this.first = event.first ?? 0;
     this.rows = event.rows ?? 20;
     this.displayedBookmarks = this.bookmarkService.updatedDisplayedBookmarks(this.first, this.rows, this.allBookmarks);
   }
-
+  
+  /**
+   * Calls the bookmark delete function in service.
+   * Updates the errors and displayed bookmarks.
+   * @param bookmarkToDelete 
+   */
   deleteBookmark(bookmarkToDelete: string): void {
     this.bookmarkService.deleteBookmark(bookmarkToDelete);
     this.updateErrorsAndBookmarks();
   }
 
-  clearErrors() {
+  clearErrors(): void {
     this.bookmarkService.clearErrors();
     this.urlError = this.bookmarkService.getError();
+    this.duplicateBookmark = null;
     this.toggleErrors();
   }
 
-  toggleErrors() {
+  toggleErrors(): void {
     const input = document.getElementById('link') as HTMLElement;
     const hasErrors = !!this.bookmarkService.getError();
     input.classList.toggle('input-error', hasErrors);
@@ -122,6 +136,23 @@ export class Overview implements OnInit{
   updateErrorsAndBookmarks(): void {
     this.clearErrors();
     this.allBookmarks = this.bookmarkService.getBookmarks();
+    this.displayedBookmarks = this.bookmarkService.updatedDisplayedBookmarks(this.first, this.rows, this.allBookmarks);
+  }
+
+  /**
+   * Highlights a bookmark that is already on list when user tries to rebookmark it.
+   * Takes user to page where bookmark is located.
+   * @param urlInput URL already bookmarked by user.
+   */
+  highlightDuplicateBookmark(urlInput: any): void {
+    // Clear input from duplicated bookmark attempt.
+    const input = document.getElementById('link') as HTMLInputElement;
+    input.value = '';
+    this.duplicateBookmark = this.bookmarkService.normaliseUrl(String(urlInput?.value));
+    // Get index of duplicated bookmark.
+    const index = this.allBookmarks.indexOf(this.duplicateBookmark);
+    // Calculate correct 'first' value for bookmark for pagination.
+    this.first = Math.floor(index/this.rows)*this.rows;
     this.displayedBookmarks = this.bookmarkService.updatedDisplayedBookmarks(this.first, this.rows, this.allBookmarks);
   }
 

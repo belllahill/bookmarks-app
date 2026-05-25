@@ -109,6 +109,13 @@
   }
 }
 
+.duplicate-error {
+  background-color: var(--mat-sys-error-container) !important;
+  .bookmark-hyperlink {
+    color: var(--mat-sys-error) !important;
+  }
+}
+
 .delete-button {
   display: flex;
   padding: 0;

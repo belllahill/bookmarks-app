@@ -33,6 +33,10 @@ export class Bookmark {
     this.updateBookmarks([...this.getBookmarks(), url]);
   }
 
+  /**
+   * Deletes bookmark requested by user.
+   * @param bookmarkToDelete 
+   */
   deleteBookmark(bookmarkToDelete: string): void {
     const bookmarks = this.getBookmarks();
     const newBookmarks = bookmarks.filter(bookmark => bookmark !== bookmarkToDelete);

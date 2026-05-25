@@ -54,10 +54,8 @@ export function urlDuplicateValidator(): ValidatorFn {
     }
 
     const bookmarks = bookmarkService.getBookmarks();
-    console.log(bookmarks);
     const normalisedUrl = bookmarkService.normaliseUrl(url);
-
-
+    
     return !(bookmarks.includes(normalisedUrl)) ? null : {duplicateUrl: true};  
   }
 }
