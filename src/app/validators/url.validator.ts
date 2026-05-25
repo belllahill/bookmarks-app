@@ -9,8 +9,7 @@ import { Bookmark } from "../services/bookmark";
  */
 export function urlValidator(): AsyncValidatorFn {
   return async (control:AbstractControl) : Promise<ValidationErrors | null> => {
-    
-    let url = control.value;
+    let url = control.value.trim();
 
     if (!url) {
       return null;
@@ -18,7 +17,7 @@ export function urlValidator(): AsyncValidatorFn {
     
     async function urlExists(value: string): Promise<boolean> {
       try {
-        const url = value.startsWith('http')
+        const url = /^https?:\/\//i.test(value)
         ? value
         : `https://${value}`;
         
@@ -43,7 +42,7 @@ export function urlValidator(): AsyncValidatorFn {
 export function urlFormatValidator(): ValidatorFn {
   const bookmarkService = inject(Bookmark)
   return (control:AbstractControl) : ValidationErrors | null => {
-    let url = control.value;
+    let url = control.value.trim();
 
     if (!url) {
       return null;
@@ -60,7 +59,7 @@ export function urlFormatValidator(): ValidatorFn {
 export function urlDuplicateValidator(): ValidatorFn {
   const bookmarkService = inject(Bookmark)
   return (control:AbstractControl) : ValidationErrors | null => {
-    let url = control.value;
+    let url = control.value.trim();
 
     if (!url) {
       return null;

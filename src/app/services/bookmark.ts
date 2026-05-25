@@ -107,15 +107,24 @@ export class Bookmark {
   }
 
   /**
-   * Checks if URL starts with 'http'.
+   * Checks if URL starts with 'https'.
    * Adds it if not already there.
+   * Ensures host name is lower case to prevent duplicates.
+   * Removes 'www' if it has been entered.
+   * Removes trailing slash.
    * @param url URL as submitted by user.
    * @returns Normalised URL.
    */
   normaliseUrl(url: string): string {
-    if (!(url.includes('http'))) {
+    url = url.trim();
+    const hasProtocol = /^https?:\/\//i.test(url);
+    if (!hasProtocol) {
       url = 'https://' + url;
     }
+    const parsedUrl = new URL(url);
+    parsedUrl.hostname = parsedUrl.hostname.toLowerCase().replace(/^www\./i, '');
+    url = parsedUrl.toString();
+    url = url.endsWith('/') ? url.slice(0, -1) : url;
     return url;
   }
   
