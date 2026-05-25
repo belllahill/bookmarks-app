@@ -17,7 +17,7 @@ export class Bookmark {
   }
 
   /**
-   * @returns a list of all bookmarks in local storage.
+   * @returns A list of all bookmarks in local storage.
    */
   getBookmarks(): string[] {
     return JSON.parse(localStorage.getItem('bookmarks') || '[]');
@@ -43,6 +43,11 @@ export class Bookmark {
     this.updateBookmarks(newBookmarks);
   }
 
+  /**
+   * 
+   * @param bookmarkToEdit Original bookmark URL.
+   * @param newBookmark New bookmark URL after editing.
+   */
   editBookmark(bookmarkToEdit: string, newBookmark: string): void {
     const bookmarks = this.getBookmarks();
     const index = bookmarks.findIndex(bookmark => bookmark === bookmarkToEdit);
@@ -52,6 +57,11 @@ export class Bookmark {
     this.updateBookmarks(bookmarks);
   }
 
+  /**
+   * Updates local storage with new list of bookmarks
+   * after adding, editing, or deleting.
+   * @param bookmarks Updated list of bookmarks.
+   */
   updateBookmarks(bookmarks: string[]): void {
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   }

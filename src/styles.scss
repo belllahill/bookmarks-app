@@ -40,12 +40,21 @@ body {
   height: 1.25rem !important;
 }
 
+// Hover colours of icon buttons on overview page.
 .mat-mdc-icon-button:hover {
-  mat-icon {
-    color: var(--mat-sys-tertiary) !important; 
+  .edit-icon {
+    color: var(--mat-sys-primary) !important; 
+  }
+  .delete-icon,
+  .cancel-icon {
+    color: var(--mat-sys-error) !important; 
+  }
+  .confirm-icon {
+    color: forestgreen !important;
   }
 }
 
+// Removes background colour on hover of icon buttons.
 .mat-mdc-button-persistent-ripple::before {
   background-color: transparent !important;
 }

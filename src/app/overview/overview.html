@@ -32,10 +32,10 @@
           <a class="bookmark-hyperlink" [href]="bookmark">{{ bookmark }}</a>
           <div class="edit-delete-buttons">
             <button (click)="editBookmark(bookmark)" mat-icon-button class="edit-button">
-              <mat-icon class="material-icons-outlined">edit</mat-icon>
+              <mat-icon class="material-icons-outlined edit-icon">edit</mat-icon>
             </button>
             <button (click)="deleteBookmark(bookmark)" mat-icon-button class="delete-button">
-              <mat-icon class="material-icons-outlined">delete</mat-icon>
+              <mat-icon class="material-icons-outlined delete-icon">delete</mat-icon>
             </button>
           </div>
         </ng-container>
@@ -43,10 +43,10 @@
           <input class="edit-input" type="url" formControlName="edit"/>
           <div class="edit-delete-buttons">
             <button mat-icon-button class="edit-button" type="submit">
-              <mat-icon class="material-icons-outlined">check</mat-icon>
+              <mat-icon class="material-icons-outlined confirm-icon">done</mat-icon>
             </button>
             <button mat-icon-button (click)="closeEditing()" class="edit-button" type="button">
-              <mat-icon class="material-icons-outlined">close</mat-icon>
+              <mat-icon class="material-icons-outlined cancel-icon">close</mat-icon>
             </button>
           </div>
         </form>

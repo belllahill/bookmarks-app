@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { Validators, ReactiveFormsModule, FormControl, FormGroup, AbstractControl } from '@angular/forms';
+import { Validators, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Bookmark } from '../services/bookmark';
 import { urlDuplicateValidator, urlFormatValidator, urlValidator } from '../validators/url.validator';
@@ -24,14 +24,19 @@ import { MatIconModule } from '@angular/material/icon';
 export class Overview implements OnInit{
   private router = inject(Router);
   bookmarkService: Bookmark = inject(Bookmark);
+
+  // Variables for pagination.
   first: number = 0;
   rows: number = 20;
   displayedBookmarks: string[] = [];
   allBookmarks: string[] = [];
+
+  // Variables for displaying errors and editing bookmarks.
   urlError: string|null = null;
   duplicateBookmark: string|null = null;
   editingBookmark: string|null = null;
 
+  // Initial input form for new bookmarks.
   bookmarkForm = new FormGroup({
     link: new FormControl('', {
       validators: [
@@ -44,6 +49,7 @@ export class Overview implements OnInit{
     })
   });
 
+  // Form for editing bookmarks.
   editForm = new FormGroup({
     edit: new FormControl('', {
       validators: [
@@ -60,12 +66,21 @@ export class Overview implements OnInit{
     this.updateErrorsAndBookmarks();
   }
 
+  /**
+   * Checks for any issues when a user submits a bookmark.
+   * Displays errors if they are found, otherwise adds
+   * bookmark to list of bookmarks and takes user to
+   * the results page.
+   */
   async onSubmit() {
+    // Make sure bookmark editing form is closed so errors don't overlap.
     this.editingBookmark = null;
+
     this.clearErrors();
     this.bookmarkForm.updateValueAndValidity();
     const urlInput = this.bookmarkForm.get('link');
 
+    // Validate url.
     if (await this.validateUrl(this.bookmarkForm, urlInput, 'link')) return;
     
     // Add normalised URL to local storage and take user to results page.
@@ -74,30 +89,47 @@ export class Overview implements OnInit{
     this.router.navigate(['/results']);
   }
 
+  /**
+   * Similar to the onSubmit function, but slightly different as 
+   * is called when the user attempts to edit a bookmark.
+   * Checks for validation errors and updates bookmark in list
+   * to new bookmark if none occur.
+   */
   async onEdit() {
     this.clearErrors();
     this.editForm.updateValueAndValidity();
     const urlInput = this.editForm.get('edit');
+
+    // Save oldUrl for comparison.
     const oldUrl = this.editingBookmark;
-    // No changes made.
+    // No changes made so no validation needed.
     if (oldUrl == this.bookmarkService.normaliseUrl(String(urlInput?.value))) {
       this.editingBookmark = null;
       this.updateErrorsAndBookmarks();
       return;
     }
 
+    // Validate url.
     if (await this.validateUrl(this.editForm, urlInput, 'edit')) return;
     
+    // Normalise URL and replace old URL with new one.
     const normalisedUrl = this.bookmarkService.normaliseUrl(String(urlInput?.value));
     this.bookmarkService.editBookmark(oldUrl!, normalisedUrl);  
     this.editingBookmark = null;
     this.updateErrorsAndBookmarks();
   }
 
-    // First check if URL has been entered, 
-    // then check if it is a duplicate, 
-    // then check if it is valid format.
-    // Add relevant errors for each case.
+  /**
+   * First checks if URL has been entered.
+   * Then checks if it is a duplicate that is already saved.
+   * Then checks if it is syntactically valid.
+   * Finally checks if the URL exists.
+   * Adds relevant errors for each case.
+   * @param form Either initial input form or editing form.
+   * @param urlInput The user input, including errors
+   * @param field The id field to add error classes.
+   * @returns True if there are errors, false if no errors.
+   */  
   async validateUrl(form: any, urlInput: any, field: string): Promise<boolean> {
     if (form.invalid) {
       if (urlInput?.hasError('required')) {
@@ -140,8 +172,7 @@ export class Overview implements OnInit{
   }
 
   /**
-   * 
-   * @param event 
+   * Paginator to display 20 results per page.
    */
   onPageChange(event: PaginatorState): void {
     this.first = event.first ?? 0;
@@ -160,16 +191,24 @@ export class Overview implements OnInit{
     this.updateErrorsAndBookmarks();
   }
 
+  /**
+   * Opens bookmark editing form and sets initial value as original bookmark URL.
+   * @param bookmarkToEdit 
+   */
   editBookmark(bookmarkToEdit: string): void {
     this.clearErrors();
     this.editingBookmark = bookmarkToEdit;
     this.editForm.get('edit')?.setValue(this.editingBookmark);
   }
 
+  /**
+   * Close editing form and clear any errors (URL remains unchanged).
+   */
   closeEditing() {
   this.editingBookmark = null;
   this.clearErrors();
   }
+
 
   clearErrors(): void {
     this.bookmarkService.clearErrors();
@@ -179,6 +218,11 @@ export class Overview implements OnInit{
     this.toggleErrors('edit');
   }
 
+  /**
+   * Toggles displayed errors for either the original input form,
+   * or the edit bookmark form.
+   * @param field the id of the input where errors occured.
+   */
   toggleErrors(field: string): void {
     const input = document.getElementById(field) as HTMLElement;
     const hasErrors = !!this.bookmarkService.getError();
@@ -189,6 +233,9 @@ export class Overview implements OnInit{
     }
   }
 
+  /**
+   * Clears errors and updates bookmarks displayed on page (e.g. if a bookmark is deleted).
+   */
   updateErrorsAndBookmarks(): void {
     this.clearErrors();
     this.allBookmarks = this.bookmarkService.getBookmarks();
