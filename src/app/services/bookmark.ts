@@ -65,8 +65,8 @@ export class Bookmark {
    * @returns Whether the URL can both be parsed and fit validation regex.
    */
   checkUrlFormat(url: string): boolean {
-    const domainRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
-    return this.checkUrlParsing(url) && domainRegex.test(url);
+    const urlRegex = /^(https?:\/\/)?([\w.-]+\.[a-z]{2,})(:\d+)?(\/[^\s#]*)?(#[^\s]*)?$/i;
+    return this.checkUrlParsing(url) && urlRegex.test(url);
   }
 
   /**
