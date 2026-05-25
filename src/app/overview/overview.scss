@@ -77,7 +77,7 @@
   align-items: start;
   height: 80.5vh;
   margin: 1vh;
-  width: 60vw;
+  width: min(950px, 90vw);;
   border-radius: 10px;
   overflow-y: auto;
   overflow-x: hidden;
