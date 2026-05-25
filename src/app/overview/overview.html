@@ -24,7 +24,10 @@
   </div>
   <div class="bookmark-container">
     <div class="bookmarks">
-      <div class="bookmark" *ngFor="let bookmark of displayedBookmarks" [class.duplicate-error]="bookmark === duplicateBookmark">
+      <div class="bookmark" 
+      *ngFor="let bookmark of displayedBookmarks" 
+      [class.duplicate-error]="bookmark === duplicateBookmark"
+      [class.edit-error]="bookmark===editingBookmark && urlError">
         <ng-container *ngIf="!(bookmark === editingBookmark)">
           <a class="bookmark-hyperlink" [href]="bookmark">{{ bookmark }}</a>
           <div class="edit-delete-buttons">
@@ -36,13 +39,13 @@
             </button>
           </div>
         </ng-container>
-        <form [formGroup]="editForm" *ngIf="bookmark === editingBookmark" class="bookmark edit-bookmark" (ngSubmit)="onEdit()">
-          <input class="edit-input" type="url" id="edit-input" formControlName="edit"/>
+        <form [formGroup]="editForm" *ngIf="bookmark === editingBookmark" id="edit" class="bookmark edit-bookmark" (ngSubmit)="onEdit()">
+          <input class="edit-input" type="url" formControlName="edit"/>
           <div class="edit-delete-buttons">
             <button mat-icon-button class="edit-button" type="submit">
               <mat-icon class="material-icons-outlined">check</mat-icon>
             </button>
-            <button mat-icon-button (click)="editingBookmark = null" class="edit-button">
+            <button mat-icon-button (click)="closeEditing()" class="edit-button" type="button">
               <mat-icon class="material-icons-outlined">close</mat-icon>
             </button>
           </div>

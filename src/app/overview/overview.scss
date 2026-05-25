@@ -43,6 +43,15 @@
   outline: none;
 }
 
+.edit-error,
+.edit-error:focus {
+  color: var(--mat-sys-error) !important;
+  background-color: var(--mat-sys-error-container) !important;
+  .edit-input {
+    color: var(--mat-sys-error) !important;
+  }
+}
+
 .submit-button {
   margin-left: 0.5rem;
   padding: 0.325rem;
@@ -109,7 +118,6 @@
   }
 
   .edit-bookmark {
-    background-color: transparent !important;
     padding-left: 0;
   }
 }
