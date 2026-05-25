@@ -1,3 +1,4 @@
+// Page container
 .overview-page {
   display: flex;
   flex-direction: column;
@@ -7,6 +8,7 @@
   padding-bottom: 12px;
 }
 
+// Overview title
 .title {
   display: flex;
   justify-content: center;
@@ -14,6 +16,7 @@
   margin: 14px 0 10px;
 }
 
+// Form and error input container
 .bookmark-input-container {
   width: min(950px, 90vw);
 }
@@ -37,19 +40,11 @@
   border: 1.5px solid var(--mat-sys-on-primary-fixed);
 }
 
+// Error displayed on top input form
 .input-error,
 .input-error:focus {
   border: 2px solid var(--mat-sys-error);
   outline: none;
-}
-
-.edit-error,
-.edit-error:focus {
-  color: var(--mat-sys-error) !important;
-  background-color: var(--mat-sys-error-container) !important;
-  .edit-input {
-    color: var(--mat-sys-error) !important;
-  }
 }
 
 .submit-button {
@@ -60,6 +55,7 @@
   min-width: fit-content;
 }
 
+// Error message displayed for both input and edit errors
 .error-message {
   height: 1.75rem;
   display: flex;
@@ -70,59 +66,7 @@
   font-size: 1rem;
 }
 
-.bookmark-container {
-  align-items: start;
-  height: 80.5vh;
-  margin: 0 0 1vh;
-  width: min(950px, 90vw);
-  border-radius: 10px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  overflow-wrap: anywhere;
-  scrollbar-color: var(--mat-sys-on-primary-fixed-variant) transparent;
-  scrollbar-width: thin;
-  border: 0.375vh solid var(--mat-sys-on-primary-fixed-variant);
-  background-color: var(--mat-sys-surface-container-high);
-}
-
-.bookmarks {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  font-size: 1rem;
-  height: 79.875vh;
-  .bookmark {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 0.5rem;
-    height: 5%;
-    min-height: fit-content;
-    width: 100%;
-  }
-
-  .bookmark:nth-child(even) {
-    background-color: var(--mat-sys-inverse-on-surface);
-    .bookmark-hyperlink {
-      color: var(--mat-sys-on-tertiary-fixed-variant);
-    }
-    .delete-button:hover {
-      background-color: var(--mat-sys-inverse-on-surface) !important;
-    }
-  }
-  .bookmark:nth-child(odd) {
-    background-color: var(--mat-sys-surface-variant);
-    .bookmark-hyperlink {
-      color: var(--mat-sys-on-primary-fixed);
-    }
-  }
-
-  .edit-bookmark {
-    padding-left: 0;
-    background-color: transparent !important;
-  }
-}
-
+// Duplicate bookmark error (applied on list of bookmarks)
 .duplicate-error {
   background-color: var(--mat-sys-error-container) !important;
   .bookmark-hyperlink {
@@ -141,12 +85,14 @@
   margin-right: 0.5rem;
   width: auto;
   height: auto;
+  // Remove extra padding around icon button so it fits nicely in bookmark line
   --mat-icon-button-touch-target-size: 0;
   mat-icon {
     color: var(--mat-sys-on-primary-fixed);
   }
 }
 
+// Form for editing a bookmark
 .edit-input {
   background-color: transparent;
   width: 100%;
@@ -158,6 +104,76 @@
   color: var(--mat-sys-primary);
 }
 
+// Error displayed on editing bookmark
+.edit-error,
+.edit-error:focus {
+  color: var(--mat-sys-error) !important;
+  background-color: var(--mat-sys-error-container) !important;
+  .edit-input {
+    color: var(--mat-sys-error) !important;
+  }
+}
+
+// Container for list of displayed bookmarks to look like table of specific size
+.bookmark-container {
+  align-items: start;
+  height: 80.5vh;
+  margin: 0 0 1vh;
+  width: min(950px, 90vw);
+  border-radius: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
+  scrollbar-color: var(--mat-sys-on-primary-fixed-variant) transparent;
+  scrollbar-width: thin;
+  border: 0.375vh solid var(--mat-sys-on-primary-fixed-variant);
+  background-color: var(--mat-sys-surface-container-high);
+}
+
+// To display bookmarks correctly on "table"
+.bookmarks {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 1rem;
+  height: 79.875vh;
+
+  // Have bookmarks stay a set height of parent container so they display nicely
+  .bookmark {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 0.5rem;
+    height: 5%;
+    min-height: fit-content;
+    width: 100%;
+  }
+
+  // Make every other bookmark a different colour
+  .bookmark:nth-child(even) {
+    background-color: var(--mat-sys-inverse-on-surface);
+    .bookmark-hyperlink {
+      color: var(--mat-sys-on-tertiary-fixed-variant);
+    }
+    .delete-button:hover {
+      background-color: var(--mat-sys-inverse-on-surface) !important;
+    }
+  }
+  .bookmark:nth-child(odd) {
+    background-color: var(--mat-sys-surface-variant);
+    .bookmark-hyperlink {
+      color: var(--mat-sys-on-primary-fixed);
+    }
+  }
+
+  // Get edit bookmark form to be invisible
+  .edit-bookmark {
+    padding-left: 0;
+    background-color: transparent !important;
+  }
+}
+
+// Style paginator to be cohesive colours and be bigger and less cramped
 .paginator {
   display: flex;
   justify-self: center;

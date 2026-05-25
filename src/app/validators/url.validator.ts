@@ -2,7 +2,11 @@ import { inject } from "@angular/core";
 import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { Bookmark } from "../services/bookmark";
 
-
+/**
+ * Takes the URL input from user and validates that the URL is
+ * reachable by attempting a HEAD request.
+ * @returns A validation error if the request can't be completed.
+ */
 export function urlValidator(): AsyncValidatorFn {
   return async (control:AbstractControl) : Promise<ValidationErrors | null> => {
     
@@ -28,13 +32,13 @@ export function urlValidator(): AsyncValidatorFn {
         return false;
       }
     }
-    return await urlExists(url) ? null : {invalidUrl: true};
+    return (await urlExists(url)) ? null : {invalidUrl: true};
   }
 }
 
 /**
- * Gets the URL input from the user and checks it for format issues.
- * @returns An error if there are syntax errors in the URL input.
+ * Takes the URL input from the user and validates its format.
+ * @returns A validation error if there are syntax errors in the URL input.
  */
 export function urlFormatValidator(): ValidatorFn {
   const bookmarkService = inject(Bookmark)
@@ -50,8 +54,8 @@ export function urlFormatValidator(): ValidatorFn {
 }
 
 /**
- * Gets the URL input from the user and checks it isn't already saved.
- * @returns An error if the URL is already bookmarked.
+ * Takes the URL input from the user and validates whether it is already saved.
+ * @returns A validation error if the URL is already bookmarked.
  */
 export function urlDuplicateValidator(): ValidatorFn {
   const bookmarkService = inject(Bookmark)

@@ -72,15 +72,14 @@ export class Overview implements OnInit{
    * bookmark to list of bookmarks and takes user to
    * the results page.
    */
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     // Make sure bookmark editing form is closed so errors don't overlap.
     this.editingBookmark = null;
-
     this.clearErrors();
     this.bookmarkForm.updateValueAndValidity();
     const urlInput = this.bookmarkForm.get('link');
 
-    // Validate url.
+    // Validate URL.
     if (await this.validateUrl(this.bookmarkForm, urlInput, 'link')) return;
     
     // Add normalised URL to local storage and take user to results page.
@@ -95,12 +94,12 @@ export class Overview implements OnInit{
    * Checks for validation errors and updates bookmark in list
    * to new bookmark if none occur.
    */
-  async onEdit() {
+  async onEdit(): Promise<void> {
     this.clearErrors();
     this.editForm.updateValueAndValidity();
     const urlInput = this.editForm.get('edit');
 
-    // Save oldUrl for comparison.
+    // Save original URL for comparison.
     const oldUrl = this.editingBookmark;
     // No changes made so no validation needed.
     if (oldUrl == this.bookmarkService.normaliseUrl(String(urlInput?.value))) {
@@ -109,7 +108,7 @@ export class Overview implements OnInit{
       return;
     }
 
-    // Validate url.
+    // Validate URL.
     if (await this.validateUrl(this.editForm, urlInput, 'edit')) return;
     
     // Normalise URL and replace old URL with new one.
@@ -204,7 +203,7 @@ export class Overview implements OnInit{
   /**
    * Close editing form and clear any errors (URL remains unchanged).
    */
-  closeEditing() {
+  closeEditing(): void {
   this.editingBookmark = null;
   this.clearErrors();
   }

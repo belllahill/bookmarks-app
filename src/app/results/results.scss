@@ -1,4 +1,4 @@
-// Page Container
+// Page container
 .results-page {
   display: flex;
   flex-direction: column;
@@ -7,7 +7,7 @@
   height: 50vh;
 }
 
-// Results Title
+// Results title
 .title {
     display: flex;
     justify-content: center;
@@ -15,7 +15,7 @@
     margin: 20px 0;
 }
 
-// Results Div (text and return button)
+// Results div (text and return button)
 .results {
   display: flex;
   flex-direction: column;

@@ -44,7 +44,7 @@ export class Bookmark {
   }
 
   /**
-   * 
+   * Edits bookmark selected by user.
    * @param bookmarkToEdit Original bookmark URL.
    * @param newBookmark New bookmark URL after editing.
    */
@@ -79,6 +79,10 @@ export class Bookmark {
     return allBookmarks.slice(start, end);
   }
 
+  /**
+   * @param url URL as submitted by the user.
+   * @returns Whether URL can be parsed.
+   */
   checkUrlParsing(url: string): boolean {
     try {
       new URL(url);
@@ -95,7 +99,7 @@ export class Bookmark {
 
   /**
    * @param url URL as submitted by user.
-   * @returns Whether the URL can both be parsed and fit validation regex.
+   * @returns Whether the URL both fits validation regex and can be parsed.
    */
   checkUrlFormat(url: string): boolean {
     const urlRegex = /^(https?:\/\/)?([\w.-]+\.[a-z]{2,})(:\d+)?(\/[^\s#]*)?(#[^\s]*)?$/i;
