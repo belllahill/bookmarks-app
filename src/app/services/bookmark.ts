@@ -117,6 +117,7 @@ export class Bookmark {
    */
   normaliseUrl(url: string): string {
     url = url.trim();
+    if (url.length === 0) return url;
     const hasProtocol = /^https?:\/\//i.test(url);
     if (!hasProtocol) {
       url = 'https://' + url;
