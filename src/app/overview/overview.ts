@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { Validators, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Bookmark } from '../services/bookmark';
-import { urlDuplicateValidator, urlFormatValidator, urlValidator } from '../validators/url.validator';
+import { urlDuplicateValidator, urlEmptyValidator, urlFormatValidator, urlValidator } from '../validators/url.validator';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { filter, firstValueFrom, race, take, timer } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
@@ -40,7 +40,7 @@ export class Overview implements OnInit{
   bookmarkForm = new FormGroup({
     link: new FormControl('', {
       validators: [
-        Validators.required, 
+        urlEmptyValidator(), 
         urlFormatValidator(),
         urlDuplicateValidator(),
       ],
@@ -53,7 +53,7 @@ export class Overview implements OnInit{
   editForm = new FormGroup({
     edit: new FormControl('', {
       validators: [
-        Validators.required, 
+        urlEmptyValidator(), 
         urlFormatValidator(),
         urlDuplicateValidator(),
       ],

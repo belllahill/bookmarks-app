@@ -71,3 +71,18 @@ export function urlDuplicateValidator(): ValidatorFn {
     return !(bookmarks.includes(normalisedUrl)) ? null : {duplicateUrl: true};  
   }
 }
+
+/**
+ * Takes the URL input from the user and validates whether anything has been entered after trimming whitespace.
+ * @returns A validation error if the URL is empty.
+ */
+export function urlEmptyValidator(): ValidatorFn {
+  return (control:AbstractControl) : ValidationErrors | null => {
+    let url = control.value.trim();
+    if (url == null || url === '') {
+      return { required: true };
+    }
+
+    return null;
+  };
+}
